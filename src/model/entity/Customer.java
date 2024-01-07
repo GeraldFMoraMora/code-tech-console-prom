@@ -9,6 +9,14 @@ public class Customer {
     private String lastname;
     private String phone;
     private Date birthdate;
+
+    public Customer(String id, String firstname, String lastname, String phone, Date birthdate){
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.birthdate = birthdate;
+    }
     
     public void setId(String id) {
         this.id = id;
@@ -25,7 +33,7 @@ public class Customer {
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
-    
+
     public String getId() {
         return id;
     }

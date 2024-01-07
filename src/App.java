@@ -1,12 +1,16 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
-import model.service.CustomerService;
+import model.entity.Customer;
+import model.service.ConnectionService;
 
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
 
-        CustomerService customerService = new CustomerService();
+        ConnectionService connectionService = new ConnectionService();
 
         Scanner scanner = new Scanner(System.in);
         int option;
@@ -25,7 +29,36 @@ public class App {
 
             switch (option) {
                 case 1:
-                System.out.println("Opción 1: Crear cliente");
+                System.out.println("\n");
+
+                    System.out.print("Digite su número de cédula: ");
+                    String id = scanner.nextLine();
+
+                    System.out.print("Digite su nombre: ");
+                    String firstName = scanner.nextLine();
+
+                    System.out.print("Digite su apellido: ");
+                    String lastName = scanner.nextLine();
+
+                    System.out.print("Digite su número telefónico: ");
+                    String phone = scanner.nextLine();
+
+                    System.out.print("Digite su fecha de nacimiento en el siguiente formato Día-Mes-Año: ");
+                    String birthdateString = scanner.nextLine();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    Date birthdate;
+
+                    try {
+                        birthdate = dateFormat.parse(birthdateString);
+                    } catch (ParseException e) {
+                        System.out.println("Error al convertir la fecha. Asegúrese de seguir el formato especificado.");
+                        continue;
+                    }
+
+                    Customer customer = new Customer(id, firstName, lastName, phone, birthdate);
+
+                    connectionService.addClient(customer);
                     
                     break;
                 case 2:
