@@ -49,5 +49,96 @@ public class ConnectionService {
         System.out.println(content.toString()); 
 
     }
+
+    public void getClientById(String id) throws Exception{
+
+        URL url = new URL(URL_API+"getClientById/"+id);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");  
+
+        BufferedReader responce = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = responce.readLine()) != null) {
+            content.append(inputLine);
+        }
+        responce.close();
+        connection.disconnect();
+        
+        System.out.println(content.toString()); 
+
+    }
+    public void getClientsByFilters(int optionFilter)  throws Exception{
+        switch (optionFilter) {
+            case 1:
+                listClientByBirthdate();
+                
+                break;
+            case 2:
+                listClientById();
+                
+                break;
+            case 3:
+            listClientByName();
+                
+                break;
+            default:
+                break;
+        }
+
+    } 
+    public void listClientByBirthdate() throws Exception{
+        URL url = new URL(URL_API+"listClientByBirthdate");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");  
+
+        BufferedReader responce = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = responce.readLine()) != null) {
+            content.append(inputLine);
+        }
+        responce.close();
+        connection.disconnect();
+        
+        System.out.println(content.toString()); 
+
+    }
+
+    public void listClientById() throws Exception{
+        URL url = new URL(URL_API+"listClientById");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");  
+
+        BufferedReader responce = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = responce.readLine()) != null) {
+            content.append(inputLine);
+        }
+        responce.close();
+        connection.disconnect();
+        
+        System.out.println(content.toString()); 
+        
+    }
+
+    public void listClientByName() throws Exception{
+        URL url = new URL(URL_API+"listClientByName");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");  
+
+        BufferedReader responce = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = responce.readLine()) != null) {
+            content.append(inputLine);
+        }
+        responce.close();
+        connection.disconnect();
+        
+        System.out.println(content.toString()); 
+        
+    }
     
 }

@@ -29,21 +29,21 @@ public class App {
 
             switch (option) {
                 case 1:
-                System.out.println("\n");
+                    System.out.println("\n");
 
-                    System.out.print("Digite su número de cédula: ");
+                    System.out.print("Digite el número de cédula: ");
                     String id = scanner.nextLine();
 
-                    System.out.print("Digite su nombre: ");
+                    System.out.print("Digite el nombre: ");
                     String firstName = scanner.nextLine();
 
-                    System.out.print("Digite su apellido: ");
+                    System.out.print("Digite el apellido: ");
                     String lastName = scanner.nextLine();
 
-                    System.out.print("Digite su número telefónico: ");
+                    System.out.print("Digite el número telefónico: ");
                     String phone = scanner.nextLine();
 
-                    System.out.print("Digite su fecha de nacimiento en el siguiente formato Día-Mes-Año: ");
+                    System.out.print("Digite la fecha de nacimiento en el siguiente formato Día-Mes-Año: ");
                     String birthdateString = scanner.nextLine();
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -70,12 +70,33 @@ public class App {
                     
                     break;
                 case 4:
-                System.out.println("Opción 4: Obtener cliente por ID");
+                    System.out.println("\n");
+
+                    System.out.print("Digite el número de cédula: ");
+                    String idUser = scanner.nextLine();
+
+                    connectionService.getClientById(idUser);
                     
                     break;
                 case 5:
-                System.out.println("Opción 5: Listar clientes");
+                    int optionFilter;
+                    System.out.println("\n");
+                    System.out.println("Como desea filtrar su busqueda:");
+                    System.out.println("1. Fecha de nacimiento descendente");
+                    System.out.println("2. Id");
+                    System.out.println("3. Nombre de manera ascendente");
+                    System.out.println("0. Regresar");
+                    System.out.print("Seleccione una opción: ");
+
+                    optionFilter = scanner.nextInt();
+                    scanner.nextLine();
                     
+                    if ((optionFilter == 0) || (optionFilter>3)){
+                        continue;
+                    } else{
+                        connectionService.getClientsByFilters(optionFilter);
+                    }   
+
                     break;
                 case 0:
                 System.out.println("Saliendo del programa. ¡Hasta luego!");
