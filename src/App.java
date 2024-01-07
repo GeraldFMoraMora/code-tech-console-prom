@@ -3,12 +3,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import org.json.JSONObject;
+
 import model.entity.Customer;
 import model.service.ConnectionService;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        System.out.println("Bienvenido al administrador de clientes!");
 
         ConnectionService connectionService = new ConnectionService();
 
@@ -29,9 +31,7 @@ public class App {
 
             switch (option) {
                 case 1:
-                    System.out.println("\n");
-
-                    System.out.print("Digite el número de cédula: ");
+                    System.out.print("\nDigite el número de cédula: ");
                     String id = scanner.nextLine();
 
                     System.out.print("Digite el nombre: ");
@@ -62,26 +62,73 @@ public class App {
                     
                     break;
                 case 2:
-                System.out.println("Opción 2: Eliminar cliente");
+                    System.out.print("\nDigite el número de cédula: ");
+                    String idDelUser = scanner.nextLine();
+
+                    connectionService.delClient(idDelUser);
                     
                     break;
                 case 3:
-                System.out.println("Opción 3: Actualizar cliente");
+                    System.out.print("\nDigite el número de cédula del usuario a actualizar: ");
+                    String idUpdateUser = scanner.nextLine();
+
+                    JSONObject jsonRes = new JSONObject(connectionService.getClientById(idUpdateUser));
+
+                    System.out.println("Estos son los datos actuales del usuario:\n"
+                    +"Identificación: "+jsonRes.getString("id")
+                    +",Nombre: "+jsonRes.getString("firstname")
+                    +", Apellido: "+jsonRes.getString("lastname")
+                    +", Celular: "+jsonRes.getString("phone")
+                    +", Fecha de nacimiento: "+jsonRes.getString("birthdate")+"\n"); 
+
+                    System.out.println("A continuación se le consultará los nuevos datos.");
+                    System.out.println("NOTA: Si desea mantener el dato solo presiona Enter para continuar");
+
+                    System.out.print("Digite el número de cédula nuevo: ");
+                    String idUpdate = scanner.nextLine();
+                    if(idUpdate.equals("")){idUpdate=jsonRes.getString("id");}
+
+                    System.out.print("Digite el nuevo nombre a actualizar: ");
+                    String firstNameUpdate = scanner.nextLine();
+                    if(firstNameUpdate.equals("")){idUpdate=jsonRes.getString("firstname");}
+
+                    System.out.print("Digite el apellido a actualizar: ");
+                    String lastNameUpdate = scanner.nextLine();
+                    if(lastNameUpdate.equals("")){idUpdate=jsonRes.getString("lastname");}
+
+                    System.out.print("Digite el número telefónico a actualizar: ");
+                    String phoneUpdate = scanner.nextLine();
+                    if(phoneUpdate.equals("")){idUpdate=jsonRes.getString("phone");}
+
+                    System.out.print("Digite la fecha de nacimiento en el siguiente formato Día-Mes-Año para actualizar: ");
+                    String birthdateStringUpdate = scanner.nextLine();
+                    if(birthdateStringUpdate.equals("")){idUpdate=jsonRes.getString("birthdate");}
+
+                    SimpleDateFormat dateFormatUpdate = new SimpleDateFormat("dd-MM-yyyy");
+                    Date birthdateUpdate;
+
+                    try {
+                        birthdateUpdate = dateFormatUpdate.parse(birthdateStringUpdate);
+                    } catch (ParseException e) {
+                        System.out.println("Error al convertir la fecha. Asegúrese de seguir el formato especificado.");
+                        continue;
+                    }
+
+                    Customer customerUpdate = new Customer(idUpdate, firstNameUpdate, lastNameUpdate, phoneUpdate, birthdateUpdate);
+
+                    connectionService.updateClient(customerUpdate);
                     
                     break;
                 case 4:
-                    System.out.println("\n");
+                    System.out.print("\nDigite el número de cédula: ");
+                    String idGetUser = scanner.nextLine();
 
-                    System.out.print("Digite el número de cédula: ");
-                    String idUser = scanner.nextLine();
-
-                    connectionService.getClientById(idUser);
+                    connectionService.getClientById(idGetUser);
                     
                     break;
                 case 5:
                     int optionFilter;
-                    System.out.println("\n");
-                    System.out.println("Como desea filtrar su busqueda:");
+                    System.out.println("\nComo desea filtrar su busqueda:");
                     System.out.println("1. Fecha de nacimiento descendente");
                     System.out.println("2. Id");
                     System.out.println("3. Nombre de manera ascendente");
