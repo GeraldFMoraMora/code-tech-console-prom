@@ -146,10 +146,12 @@ public class App {
 
                     break;
                 case 0:
-                System.out.println("Saliendo del programa. ¡Hasta luego!");
-                    
+                    System.out.println("Saliendo del programa. ¡Hasta luego!");
+
                     break;
                 default:
+                    System.out.println("Error: Opción invalida, ingrese una correcta.");
+                    
                     break;
             }
 
