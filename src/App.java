@@ -72,37 +72,42 @@ public class App {
                     System.out.print("\nDigite el número de cédula del usuario a actualizar: ");
                     String idUpdateUser = scanner.nextLine();
 
-                    JSONObject jsonRes = new JSONObject(connectionService.getClientById(idUpdateUser));
+                    String customerString = connectionService.getClientById(idUpdateUser);
+
+                    if(customerString.equals("")){
+                        continue; //En caso de que No exista el usuario requerido regresa al menu
+                    }
+
+                    JSONObject jsonRes = new JSONObject(customerString);
 
                     System.out.println("Estos son los datos actuales del usuario:\n"
                     +"Identificación: "+jsonRes.getString("id")
-                    +",Nombre: "+jsonRes.getString("firstname")
+                    +", Nombre: "+jsonRes.getString("firstname")
                     +", Apellido: "+jsonRes.getString("lastname")
                     +", Celular: "+jsonRes.getString("phone")
                     +", Fecha de nacimiento: "+jsonRes.getString("birthdate")+"\n"); 
 
                     System.out.println("A continuación se le consultará los nuevos datos.");
-                    System.out.println("NOTA: Si desea mantener el dato solo presiona Enter para continuar");
+                    System.out.println("NOTA: Si desea mantener el dato original solo presiona Enter para continuar");
 
-                    System.out.print("Digite el número de cédula nuevo: ");
-                    String idUpdate = scanner.nextLine();
-                    if(idUpdate.equals("")){idUpdate=jsonRes.getString("id");}
 
                     System.out.print("Digite el nuevo nombre a actualizar: ");
                     String firstNameUpdate = scanner.nextLine();
-                    if(firstNameUpdate.equals("")){idUpdate=jsonRes.getString("firstname");}
+                    if(firstNameUpdate.equals("")){firstNameUpdate=jsonRes.getString("firstname");}
 
                     System.out.print("Digite el apellido a actualizar: ");
                     String lastNameUpdate = scanner.nextLine();
-                    if(lastNameUpdate.equals("")){idUpdate=jsonRes.getString("lastname");}
+                    if(lastNameUpdate.equals("")){lastNameUpdate=jsonRes.getString("lastname");}
 
                     System.out.print("Digite el número telefónico a actualizar: ");
                     String phoneUpdate = scanner.nextLine();
-                    if(phoneUpdate.equals("")){idUpdate=jsonRes.getString("phone");}
+                    if(phoneUpdate.equals("")){phoneUpdate=jsonRes.getString("phone");}
 
                     System.out.print("Digite la fecha de nacimiento en el siguiente formato Día-Mes-Año para actualizar: ");
                     String birthdateStringUpdate = scanner.nextLine();
-                    if(birthdateStringUpdate.equals("")){idUpdate=jsonRes.getString("birthdate");}
+                    if(birthdateStringUpdate.equals("")){
+                        birthdateStringUpdate=jsonRes.getString("birthdate");
+                    }
 
                     SimpleDateFormat dateFormatUpdate = new SimpleDateFormat("dd-MM-yyyy");
                     Date birthdateUpdate;
@@ -114,7 +119,7 @@ public class App {
                         continue;
                     }
 
-                    Customer customerUpdate = new Customer(idUpdate, firstNameUpdate, lastNameUpdate, phoneUpdate, birthdateUpdate);
+                    Customer customerUpdate = new Customer(idUpdateUser, firstNameUpdate, lastNameUpdate, phoneUpdate, birthdateUpdate);
 
                     connectionService.updateClient(customerUpdate);
                     
@@ -123,7 +128,15 @@ public class App {
                     System.out.print("\nDigite el número de cédula: ");
                     String idGetUser = scanner.nextLine();
 
-                    connectionService.getClientById(idGetUser);
+                    String customerString2 = connectionService.getClientById(idGetUser);
+                    JSONObject jsonRes2 = new JSONObject(customerString2);
+
+                    System.out.println("\nEstos son los datos del usuario encontrado:\n"
+                    +"Identificación: "+jsonRes2.getString("id")
+                    +", \nNombre: "+jsonRes2.getString("firstname")
+                    +", \nApellido: "+jsonRes2.getString("lastname")
+                    +", \nCelular: "+jsonRes2.getString("phone")
+                    +", \nFecha de nacimiento: "+jsonRes2.getString("birthdate")+"\n"); 
                     
                     break;
                 case 5:

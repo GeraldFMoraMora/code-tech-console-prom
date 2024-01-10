@@ -46,7 +46,9 @@ public class ConnectionService {
         responce.close();
         connection.disconnect();
         
-        System.out.println(content.toString()); 
+        JSONObject resJson = new JSONObject(content.toString());
+        //if (resJson.get("error").toString().equals("true")){
+        System.out.println(resJson.get("message"));
 
     }
 
@@ -65,7 +67,8 @@ public class ConnectionService {
         responce.close();
         connection.disconnect();
         
-        System.out.println(content.toString()); 
+        JSONObject resJson = new JSONObject(content.toString()); 
+        System.out.println(resJson.get("message"));
 
     }
 
@@ -100,7 +103,8 @@ public class ConnectionService {
         responce.close();
         connection.disconnect();
         
-        System.out.println(content.toString()); 
+        JSONObject resJson = new JSONObject(content.toString()); 
+        System.out.println(resJson.get("message"));
 
     }
 
@@ -118,10 +122,16 @@ public class ConnectionService {
         }
         responce.close();
         connection.disconnect();
-        
-        System.out.println(content.toString()); 
-        return content.toString();
 
+        String res = "";
+        JSONObject resJson = new JSONObject(content.toString());
+        if (resJson.get("error").toString().equals("true")){
+            System.out.println(resJson.get("message"));
+        }else{
+            res = resJson.get("user").toString();
+        }
+
+        return res;
     }
 
     public void getClientsByFilters(int optionFilter)  throws Exception{
