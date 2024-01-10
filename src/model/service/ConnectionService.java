@@ -163,8 +163,28 @@ public class ConnectionService {
         }
         responce.close();
         connection.disconnect();
-        
-        System.out.println(content.toString());
+
+        JSONObject resJson = new JSONObject(content.toString()); 
+        String res = "";
+
+        if(resJson.getJSONArray("listUsers").length()==0){
+            System.out.println("Here1");
+            System.out.println(resJson.get("message"));
+        }else{
+            System.out.println("Here2");
+            res = resJson.getJSONArray("listUsers").toString();
+            JSONArray listUsers = resJson.getJSONArray("listUsers");
+            for (int i = 0; i < listUsers.length(); i++) {
+                JSONObject user = listUsers.getJSONObject(i);
+                System.out.println("\nUsuario: "+i+"\n"
+                    +"Identificación: "+user.getString("id")
+                    +", \nNombre: "+user.getString("firstname")
+                    +", \nApellido: "+user.getString("lastname")
+                    +", \nCelular: "+user.getString("phone")
+                    +", \nFecha de nacimiento: "+user.getString("birthdate")+"\n");
+                
+            }
+        }
 
     } 
     
